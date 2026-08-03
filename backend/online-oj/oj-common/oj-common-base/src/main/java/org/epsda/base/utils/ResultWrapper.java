@@ -6,7 +6,7 @@ import org.epsda.base.enums.ResponseStatusCode;
 
 /**
  * Created with IntelliJ IDEA.
- * Description:
+ * Description: 通用结果返回
  * Author: EPSDA
  * Date: 2026/08/03
  * Time: 13:22

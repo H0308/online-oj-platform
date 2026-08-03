@@ -7,7 +7,7 @@ import lombok.Setter;
 
 /**
  * Created with IntelliJ IDEA.
- * Description:
+ * Description: 通用响应状态码
  * Author: EPSDA
  * Date: 2026/08/03
  * Time: 13:24

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * Created with IntelliJ IDEA.
- * Description:
+ * Description: MyBatisPlus配置
  * Author: EPSDA
  * Date: 2026/08/03
  * Time: 13:42

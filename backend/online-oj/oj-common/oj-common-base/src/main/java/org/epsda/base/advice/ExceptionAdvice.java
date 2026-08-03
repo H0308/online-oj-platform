@@ -15,7 +15,7 @@ import java.util.Objects;
 
 /**
  * Created with IntelliJ IDEA.
- * Description:
+ * Description: WebMVC异常拦截器
  * Author: EPSDA
  * Date: 2026/08/03
  * Time: 13:35

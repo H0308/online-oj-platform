@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * Created with IntelliJ IDEA.
- * Description:
+ * Description: 业务异常类，后续所有业务具体异常都必须继承当前类
  * Author: EPSDA
  * Date: 2026/08/03
  * Time: 13:33
