@@ -1,0 +1,22 @@
+server:
+  port: 9091
+spring:
+  application:
+    name: oj-user
+  datasource:
+    url: jdbc:mysql://${DATABASE_IP:localhost}:${DATABASE_PORT:3306}/db_online_oj_platform_user?characterEncoding=utf8&useSSL=false
+    username: ${DATABASE_USERNAME:root}
+    password: ${DATABASE_PASSWORD:root}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      table-prefix: tb_ # 表前缀
+      id-type: ASSIGN_ID # 主键id（雪花算法）
+      # 逻辑删除字段。使用逻辑删除，mybatis-plus提供的方法可以不带逻辑删除的查询条件
+      logic-delete-field: deleteFlag
+      logic-delete-value: true # 逻辑删除值
+      logic-not-delete-value: false # 逻辑未删除值

@@ -1,0 +1,36 @@
+package org.epsda.base.exception;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+/**
+ * Created with IntelliJ IDEA.
+ * Description:
+ * Author: EPSDA
+ * Date: 2026/08/03
+ * Time: 13:33
+ * Package Name: org.epsda.base.exception
+ * Project Name: online-oj
+ */
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class ServiceException extends RuntimeException {
+    private String code;
+    private String message;
+
+    public ServiceException() {
+    }
+
+    public ServiceException(String message) {
+        super(message);
+        this.message = message;
+    }
+
+    public ServiceException(String code, String message) {
+        super(message);
+        this.code = code;
+        this.message = message;
+    }
+}
