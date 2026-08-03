@@ -1,9 +1,7 @@
 package org.epsda.base.enums;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Created with IntelliJ IDEA.

@@ -1,9 +1,7 @@
 package org.epsda.base.exception;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 /**
  * Created with IntelliJ IDEA.
