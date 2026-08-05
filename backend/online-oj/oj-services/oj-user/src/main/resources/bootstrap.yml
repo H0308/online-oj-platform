@@ -1,6 +1,9 @@
 server:
   port: 9091
 spring:
+  servlet:
+    multipart:
+      max-file-size: 5MB
   application:
     name: oj-user
   datasource:
@@ -63,3 +66,9 @@ mybatis-plus:
       logic-delete-field: deleteFlag
       logic-delete-value: true # 逻辑删除值
       logic-not-delete-value: false # 逻辑未删除值
+aliyun:
+  oss:
+    endpoint: ${ALIYUN_OSS_ENDPOINT}
+    access-key-id: ${ALIYUN_OSS_ACCESS_KEY_ID}
+    access-key-secret: ${ALIYUN_OSS_ACCESS_KEY_SECRET}
+    bucket-name: ${ALIYUN_OSS_ACCESS_BUCKET_NAME}

@@ -13,6 +13,7 @@ import org.epsda.user.enums.UserResponseStatus;
 import org.epsda.user.service.SystemUserService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Created with IntelliJ IDEA.
@@ -72,5 +73,15 @@ public class SystemUserController {
         SecurityUtil.checkHorizontalPermission(resetPasswordDto.getCurrentUserId());
         return ResultWrapper.ok(UserResponseStatus.USER_OK.getCode(),
                 systemUserService.resetPassword(resetPasswordDto));
+    }
+
+    // 管理员上传头像
+    @Operation(summary = "管理员上传头像")
+    @PostMapping("/upload-avatar")
+    public ResultWrapper<String> uploadAvatar(@RequestParam("userId") Long userId,
+                                            @RequestPart("file") MultipartFile file) {
+        SecurityUtil.checkHorizontalPermission(userId);
+        return ResultWrapper.ok(UserResponseStatus.USER_OK.getCode(),
+                systemUserService.uploadAvatar(userId, file));
     }
 }

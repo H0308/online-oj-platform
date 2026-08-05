@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import jakarta.annotation.Resource;
 
 import java.security.SecureRandom;
+
+import org.epsda.aliyunoss.enums.FileType;
 import org.epsda.base.exception.UserException;
 import org.epsda.user.constants.Constants;
 import org.epsda.user.controller.dto.SysUserAddDto;
@@ -15,9 +17,11 @@ import org.epsda.user.controller.dto.SysUserResetPasswordDto;
 import org.epsda.user.controller.vo.UserLoginVo;
 import org.epsda.user.entity.SysUser;
 import org.epsda.user.enums.UserResponseStatus;
+import org.epsda.user.manager.FileManager;
 import org.epsda.user.mapper.SysUserMapper;
 import org.epsda.user.service.SystemUserService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Created with IntelliJ IDEA.
@@ -33,6 +37,8 @@ public class SystemUserServiceImpl implements SystemUserService {
 
     @Resource
     private SysUserMapper sysUserMapper;
+    @Resource
+    private FileManager fileManager;
 
     private static final int MAX_PASSWORD_GENERATE_TIMES = 3;
 
@@ -202,6 +208,26 @@ public class SystemUserServiceImpl implements SystemUserService {
         }
 
         return true;
+    }
+
+    /**
+     * 管理员用户上传头像文件，文件上传到阿里云OSS
+     * @param userId 当前登录的用户
+     * @param file 用户新头像文件
+     * @return 新头像OSS URL
+     */
+    @Override
+    public String uploadAvatar(Long userId, MultipartFile file) {
+        String fileUrl = fileManager.uploadImageFile(file);
+        boolean updateRet = sysUserMapper.update(new LambdaUpdateWrapper<SysUser>()
+                .eq(SysUser::getId, userId)
+                .set(SysUser::getAvatarUrl, fileUrl)) == 1;
+        if (!updateRet) {
+            throw new UserException(UserResponseStatus.USER_UPDATE_FAIL.getCode(),
+                    UserResponseStatus.USER_UPDATE_FAIL.getMessage());
+        }
+
+        return fileUrl;
     }
 
     /**

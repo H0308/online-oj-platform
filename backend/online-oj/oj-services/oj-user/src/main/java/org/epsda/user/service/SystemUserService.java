@@ -5,6 +5,7 @@ import org.epsda.user.controller.dto.SysUserChangePasswordDto;
 import org.epsda.user.controller.dto.SysUserLoginDto;
 import org.epsda.user.controller.dto.SysUserResetPasswordDto;
 import org.epsda.user.controller.vo.UserLoginVo;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Created with IntelliJ IDEA.
@@ -25,4 +26,6 @@ public interface SystemUserService {
     Boolean add(SysUserAddDto addDto);
 
     Boolean resetPassword(SysUserResetPasswordDto resetPasswordDto);
+
+    String uploadAvatar(Long userId, MultipartFile file);
 }
