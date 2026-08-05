@@ -10,7 +10,7 @@ import org.epsda.base.entity.BaseEntity;
 
 /**
  * Created with IntelliJ IDEA.
- * Description:
+ * Description: 管理员用户实体类
  * Author: EPSDA
  * Date: 2026/08/03
  * Time: 10:50
@@ -21,11 +21,12 @@ import org.epsda.base.entity.BaseEntity;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName(value = "user", keepGlobalPrefix = true)
+@TableName(value = "sys_user", keepGlobalPrefix = true)
 public class SysUser extends BaseEntity {
     @TableId
     private Long id;
     private String username;
+    private String email;
     private String password;
-    private String avatar_url;
+    private String avatarUrl;
 }

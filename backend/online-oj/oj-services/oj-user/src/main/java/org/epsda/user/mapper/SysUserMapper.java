@@ -6,7 +6,7 @@ import org.epsda.user.entity.SysUser;
 
 /**
  * Created with IntelliJ IDEA.
- * Description:
+ * Description: 管理员用户表持久层
  * Author: EPSDA
  * Date: 2026/08/03
  * Time: 11:19
