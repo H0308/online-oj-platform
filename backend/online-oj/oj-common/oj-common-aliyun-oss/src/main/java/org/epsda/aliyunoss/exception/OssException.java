@@ -1,13 +1,11 @@
 package org.epsda.aliyunoss.exception;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.epsda.base.exception.ServiceException;
 
 /**
  * Created with IntelliJ IDEA.
- * Description:
+ * Description: OSS异常，继承自运行时异常，不与业务异常挂钩
  * Author: EPSDA
  * Date: 2026/08/05
  * Time: 14:51
@@ -16,15 +14,21 @@ import org.epsda.base.exception.ServiceException;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class OssException extends ServiceException {
+public class OssException extends RuntimeException {
+    private String code;
+    private String message;
+
     public OssException() {
     }
 
     public OssException(String message) {
         super(message);
+        this.message = message;
     }
 
     public OssException(String code, String message) {
-        super(code, message);
+        super(message);
+        this.code = code;
+        this.message = message;
     }
 }

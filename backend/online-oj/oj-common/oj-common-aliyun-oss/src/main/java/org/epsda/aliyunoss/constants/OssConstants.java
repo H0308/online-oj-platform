@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
- * Description:
+ * Description: OSS工具常量定义
  * Author: EPSDA
  * Date: 2026/08/05
  * Time: 14:55

@@ -10,7 +10,7 @@ import static org.epsda.aliyunoss.enums.FileType.IMAGE;
 
 /**
  * Created with IntelliJ IDEA.
- * Description:
+ * Description: 文件类型检查工具类
  * Author: EPSDA
  * Date: 2026/08/05
  * Time: 14:49

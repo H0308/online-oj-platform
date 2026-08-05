@@ -7,7 +7,6 @@ import jakarta.annotation.Resource;
 
 import java.security.SecureRandom;
 
-import org.epsda.aliyunoss.enums.FileType;
 import org.epsda.base.exception.UserException;
 import org.epsda.user.constants.Constants;
 import org.epsda.user.controller.dto.SysUserAddDto;

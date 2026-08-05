@@ -45,7 +45,7 @@
         <!-- common-base依赖 -->
         <dependency>
             <groupId>org.epsda</groupId>
-            <artifactId>oj-common-aliyun-oss</artifactId>
+            <artifactId>oj-common-base</artifactId>
             <version>1.0.0</version>
             <scope>compile</scope>
         </dependency>
@@ -53,6 +53,13 @@
         <dependency>
             <groupId>org.epsda</groupId>
             <artifactId>oj-common-swagger</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- common-aliyun-oss依赖 -->
+        <dependency>
+            <groupId>org.epsda</groupId>
+            <artifactId>oj-common-aliyun-oss</artifactId>
             <version>1.0.0</version>
             <scope>compile</scope>
         </dependency>

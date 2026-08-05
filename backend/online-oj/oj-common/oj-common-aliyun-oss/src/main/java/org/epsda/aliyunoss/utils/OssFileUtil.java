@@ -17,7 +17,7 @@ import java.util.UUID;
 
 /**
  * Created with IntelliJ IDEA.
- * Description:
+ * Description: OSS文件操作工具类，需要在yml中配置相关必要属性才可以使用
  * Author: EPSDA
  * Date: 2026/08/05
  * Time: 15:02

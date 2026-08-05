@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * Created with IntelliJ IDEA.
- * Description:
+ * Description: 文件类型枚举
  * Author: EPSDA
  * Date: 2026/08/05
  * Time: 14:50
