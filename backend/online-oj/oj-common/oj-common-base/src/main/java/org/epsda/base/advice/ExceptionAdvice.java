@@ -1,5 +1,6 @@
 package org.epsda.base.advice;
 
+import cn.dev33.satoken.exception.NotLoginException;
 import lombok.extern.slf4j.Slf4j;
 import org.epsda.base.enums.ResponseStatusCode;
 import org.epsda.base.exception.ServiceException;
@@ -61,6 +62,15 @@ public class ExceptionAdvice {
         log.warn("状态异常: {}", e.getMessage());
         // 状态异常通常是业务逻辑问题，返回具体提示
         return ResultWrapper.fail(ResponseStatusCode.SYSTEM_INTERNAL_ERROR.getCode(), e.getMessage());
+    }
+
+    @ResponseStatus(value = HttpStatus.SERVICE_UNAVAILABLE)
+    @ExceptionHandler(NotLoginException.class)
+    public ResultWrapper notLoginExceptionHandler(NotLoginException e) {
+        // log.error("运行时异常: ", e);
+        log.error("sa-token异常信息：{}", e.getMessage());
+        return ResultWrapper.fail(ResponseStatusCode.USER_AUTH_FAIL.getCode(),
+                ResponseStatusCode.USER_AUTH_FAIL.getMessage());
     }
 
     @ResponseStatus(value = HttpStatus.SERVICE_UNAVAILABLE)
