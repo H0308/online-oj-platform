@@ -11,6 +11,7 @@ import org.epsda.user.constants.Constants;
 import org.epsda.user.controller.dto.SysUserAddDto;
 import org.epsda.user.controller.dto.SysUserChangePasswordDto;
 import org.epsda.user.controller.dto.SysUserLoginDto;
+import org.epsda.user.controller.dto.SysUserResetPasswordDto;
 import org.epsda.user.controller.vo.UserLoginVo;
 import org.epsda.user.entity.SysUser;
 import org.epsda.user.enums.UserResponseStatus;
@@ -32,6 +33,8 @@ public class SystemUserServiceImpl implements SystemUserService {
 
     @Resource
     private SysUserMapper sysUserMapper;
+
+    private static final int MAX_PASSWORD_GENERATE_TIMES = 3;
 
     /**
      * 使用sa-token+jwt+redis实现管理员登录
@@ -152,6 +155,50 @@ public class SystemUserServiceImpl implements SystemUserService {
         if (!insertRet) {
             throw new UserException(UserResponseStatus.USER_ADD_FAIL.getCode(),
                     UserResponseStatus.USER_ADD_FAIL.getMessage());
+        }
+
+        return true;
+    }
+
+    /**
+     * 管理员重置用户密码接口
+     * @param resetPasswordDto 重置密码请求实体
+     * @return 重置成功返回true，否则返回false
+     */
+    @Override
+    public Boolean resetPassword(SysUserResetPasswordDto resetPasswordDto) {
+        Long targetUserId = resetPasswordDto.getTargetUserId();
+        SysUser sysUser = sysUserMapper.selectOne(new LambdaQueryWrapper<SysUser>().eq(SysUser::getId, targetUserId));
+        if (sysUser == null) {
+            throw new UserException(UserResponseStatus.USER_NOT_FOUND.getCode(),
+                    UserResponseStatus.USER_NOT_FOUND.getMessage());
+        }
+
+        int times = 0;
+        String newPassword = "";
+        while (times < MAX_PASSWORD_GENERATE_TIMES) {
+            newPassword = generateRandomPassword();
+            // 非重复密码则直接退出，不再继续生成
+            if (!sysUser.getPassword().equals(newPassword)) {
+                break;
+            }
+            times++;
+        }
+
+        // 生成随机新密码错误
+        if (times >= MAX_PASSWORD_GENERATE_TIMES) {
+            throw new UserException(UserResponseStatus.USER_PASSWORD_RESET_FAIL.getCode(),
+                    UserResponseStatus.USER_PASSWORD_RESET_FAIL.getMessage());
+        }
+
+        // 目前直接明文保存
+        boolean updateRet = sysUserMapper.update(new LambdaUpdateWrapper<SysUser>()
+                .eq(SysUser::getId, targetUserId)
+                .set(SysUser::getPassword, newPassword)) == 1;
+
+        if (!updateRet) {
+            throw new UserException(UserResponseStatus.USER_UPDATE_FAIL.getCode(),
+                    UserResponseStatus.USER_UPDATE_FAIL.getMessage());
         }
 
         return true;

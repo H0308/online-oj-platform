@@ -3,6 +3,7 @@ package org.epsda.user.service;
 import org.epsda.user.controller.dto.SysUserAddDto;
 import org.epsda.user.controller.dto.SysUserChangePasswordDto;
 import org.epsda.user.controller.dto.SysUserLoginDto;
+import org.epsda.user.controller.dto.SysUserResetPasswordDto;
 import org.epsda.user.controller.vo.UserLoginVo;
 
 /**
@@ -22,4 +23,6 @@ public interface SystemUserService {
     Boolean changePassword(SysUserChangePasswordDto passwordDto);
 
     Boolean add(SysUserAddDto addDto);
+
+    Boolean resetPassword(SysUserResetPasswordDto resetPasswordDto);
 }

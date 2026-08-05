@@ -23,7 +23,8 @@ public enum UserResponseStatus {
     USER_CONFIRM_PASSWORD_WRONG("USER_1004", "两次输入的密码不一致"),
     USER_UPDATE_FAIL("USER_1005", "用户数据更新失败"),
     USER_SAME_EMAIL_FAIL("USER_1006", "当前邮箱已存在"),
-    USER_ADD_FAIL("USER_1007", "用户新增失败");
+    USER_ADD_FAIL("USER_1007", "用户新增失败"),
+    USER_PASSWORD_RESET_FAIL("USER_1008", "用户密码重置失败");
 
     private final String code;
     private final String message;

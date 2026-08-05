@@ -7,6 +7,7 @@ import org.epsda.base.utils.SecurityUtil;
 import org.epsda.user.controller.dto.SysUserAddDto;
 import org.epsda.user.controller.dto.SysUserChangePasswordDto;
 import org.epsda.user.controller.dto.SysUserLoginDto;
+import org.epsda.user.controller.dto.SysUserResetPasswordDto;
 import org.epsda.user.controller.vo.UserLoginVo;
 import org.epsda.user.enums.UserResponseStatus;
 import org.epsda.user.service.SystemUserService;
@@ -62,5 +63,14 @@ public class SystemUserController {
         SecurityUtil.checkHorizontalPermission(passwordDto.getUserId());
         return ResultWrapper.ok(UserResponseStatus.USER_OK.getCode(),
                 systemUserService.changePassword(passwordDto));
+    }
+
+    // 管理员重置用户密码
+    @Operation(summary = "管理员重置用户密码")
+    @PostMapping("/reset-password")
+    public ResultWrapper<Boolean> resetPassword(@Validated @RequestBody SysUserResetPasswordDto resetPasswordDto) {
+        SecurityUtil.checkHorizontalPermission(resetPasswordDto.getCurrentUserId());
+        return ResultWrapper.ok(UserResponseStatus.USER_OK.getCode(),
+                systemUserService.resetPassword(resetPasswordDto));
     }
 }
