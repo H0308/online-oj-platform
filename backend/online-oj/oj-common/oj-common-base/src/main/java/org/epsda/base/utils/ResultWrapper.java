@@ -25,6 +25,10 @@ public class ResultWrapper<T> {
         return new ResultWrapper<>(ResponseStatusCode.OK.getCode(), "", data);
     }
 
+    public static <T> ResultWrapper<T> ok(String code, T data) {
+        return new ResultWrapper<>(code, "", data);
+    }
+
     // 错误情况
     public static <T> ResultWrapper<T> fail(T data) {
         return new ResultWrapper<>(ResponseStatusCode.SYSTEM_INTERNAL_ERROR.getCode(),
