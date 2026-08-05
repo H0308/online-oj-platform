@@ -123,8 +123,9 @@ public class SystemUserServiceImpl implements SystemUserService {
                     UserResponseStatus.USER_CONFIRM_PASSWORD_WRONG.getMessage());
         }
 
-        // 修改用户
-        boolean updateRet = sysUserMapper.update(new LambdaUpdateWrapper<SysUser>()
+        // 修改用户密码
+        boolean updateRet = sysUserMapper.update(new SysUser(),
+                new LambdaUpdateWrapper<SysUser>()
                 .eq(SysUser::getId, userId)
                 .set(SysUser::getPassword, newPassword)) == 1;
         if (!updateRet) {
@@ -197,7 +198,8 @@ public class SystemUserServiceImpl implements SystemUserService {
         }
 
         // 目前直接明文保存
-        boolean updateRet = sysUserMapper.update(new LambdaUpdateWrapper<SysUser>()
+        boolean updateRet = sysUserMapper.update(new SysUser(),
+                new LambdaUpdateWrapper<SysUser>()
                 .eq(SysUser::getId, targetUserId)
                 .set(SysUser::getPassword, newPassword)) == 1;
 
@@ -218,7 +220,8 @@ public class SystemUserServiceImpl implements SystemUserService {
     @Override
     public String uploadAvatar(Long userId, MultipartFile file) {
         String fileUrl = fileManager.uploadImageFile(file);
-        boolean updateRet = sysUserMapper.update(new LambdaUpdateWrapper<SysUser>()
+        boolean updateRet = sysUserMapper.update(new SysUser(),
+                new LambdaUpdateWrapper<SysUser>()
                 .eq(SysUser::getId, userId)
                 .set(SysUser::getAvatarUrl, fileUrl)) == 1;
         if (!updateRet) {

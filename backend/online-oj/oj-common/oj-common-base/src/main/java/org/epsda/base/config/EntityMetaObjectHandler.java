@@ -1,6 +1,7 @@
 package org.epsda.base.config;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 import org.epsda.base.utils.SecurityUtil;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,8 @@ import java.time.LocalDateTime;
  * Project Name: online-oj
  */
 @Component
-public class MyBatisPlusTimeMetaObjectHandler implements MetaObjectHandler {
+@Slf4j
+public class EntityMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void insertFill(MetaObject metaObject) {
@@ -29,6 +31,7 @@ public class MyBatisPlusTimeMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void updateFill(MetaObject metaObject) {
+        log.info("更新人信息：{}", SecurityUtil.getLoginUserId());
         this.strictUpdateFill(metaObject, "updateBy",
                 Long.class, SecurityUtil.getLoginUserId());
         this.strictUpdateFill(metaObject, "updateTime",
