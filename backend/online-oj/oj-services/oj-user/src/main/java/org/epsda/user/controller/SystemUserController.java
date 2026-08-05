@@ -4,7 +4,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import org.epsda.base.utils.ResultWrapper;
 import org.epsda.base.utils.SecurityUtil;
-import org.epsda.user.controller.dto.UserLoginDto;
+import org.epsda.user.controller.dto.SysUserAddDto;
+import org.epsda.user.controller.dto.SysUserChangePasswordDto;
+import org.epsda.user.controller.dto.SysUserLoginDto;
 import org.epsda.user.controller.vo.UserLoginVo;
 import org.epsda.user.enums.UserResponseStatus;
 import org.epsda.user.service.SystemUserService;
@@ -30,9 +32,9 @@ public class SystemUserController {
     // 管理员登录
     @Operation(summary = "管理员登录")
     @PostMapping("/login")
-    public ResultWrapper<UserLoginVo> login(@Validated @RequestBody UserLoginDto userLoginDto) {
+    public ResultWrapper<UserLoginVo> login(@Validated @RequestBody SysUserLoginDto sysUserLoginDto) {
         return ResultWrapper.ok(UserResponseStatus.USER_OK.getCode(),
-                systemUserService.login(userLoginDto));
+                systemUserService.login(sysUserLoginDto));
     }
 
     // 管理员退出登录
@@ -42,5 +44,23 @@ public class SystemUserController {
         SecurityUtil.checkHorizontalPermission(userId);
         return ResultWrapper.ok(UserResponseStatus.USER_OK.getCode(),
                 systemUserService.logout(userId));
+    }
+
+    // 管理员新增用户，这个接口只有超管可以用，其他普通管理员不可以用
+    @Operation(summary = "管理员新增用户")
+    @PostMapping("/add")
+    public ResultWrapper<Boolean> add(@Validated @RequestBody SysUserAddDto addDto) {
+        SecurityUtil.checkHorizontalPermission(addDto.getUserId());
+        return ResultWrapper.ok(UserResponseStatus.USER_OK.getCode(),
+                systemUserService.add(addDto));
+    }
+
+    // 管理员修改密码
+    @Operation(summary = "管理员修改密码")
+    @PostMapping("/change-password")
+    public ResultWrapper<Boolean> changePassword(@Validated @RequestBody SysUserChangePasswordDto passwordDto) {
+        SecurityUtil.checkHorizontalPermission(passwordDto.getUserId());
+        return ResultWrapper.ok(UserResponseStatus.USER_OK.getCode(),
+                systemUserService.changePassword(passwordDto));
     }
 }

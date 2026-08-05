@@ -2,10 +2,7 @@ package org.epsda.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.epsda.base.entity.BaseEntity;
 
 /**
@@ -19,6 +16,7 @@ import org.epsda.base.entity.BaseEntity;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName(value = "sys_user", keepGlobalPrefix = true)
