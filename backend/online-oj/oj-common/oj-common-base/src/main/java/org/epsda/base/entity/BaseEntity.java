@@ -24,10 +24,12 @@ import java.time.LocalDateTime;
 public class BaseEntity {
     @TableLogic
     private Integer deleteFlag;
+    @TableField(fill = FieldFill.INSERT)
     private Long createBy;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long updateBy;
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
-    @TableField(fill = FieldFill.UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 }

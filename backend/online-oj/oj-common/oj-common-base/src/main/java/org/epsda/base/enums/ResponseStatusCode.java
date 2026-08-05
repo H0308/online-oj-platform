@@ -17,7 +17,8 @@ import lombok.Getter;
 public enum ResponseStatusCode {
     OK("BASE_0", "正常"),
     SYSTEM_INTERNAL_ERROR("BASE_1000", "服务器内部错误"),
-    RESOURCES_NOT_FOUND("BASE_1001", "资源不存在");
+    RESOURCES_NOT_FOUND("BASE_1001", "资源不存在"),
+    HORIZONTAL_PERMISSION_NOT_ALLOWED("BEAS_1002", "不允许使用他人账户");
 
     private final String code;
     private final String message;
