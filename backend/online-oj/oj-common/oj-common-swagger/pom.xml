@@ -19,7 +19,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.github.xiaoymin</groupId>
+            <groupId>com.baizhukui</groupId>
             <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
             <version>${knife4j.version}</version>
         </dependency>
