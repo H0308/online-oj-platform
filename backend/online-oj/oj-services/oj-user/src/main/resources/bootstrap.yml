@@ -4,10 +4,32 @@ spring:
   application:
     name: oj-user
   datasource:
-    url: jdbc:mysql://${DATABASE_IP:localhost}:${DATABASE_PORT:3306}/db_online_oj_platform_user?characterEncoding=utf8&useSSL=false
+    url: jdbc:mysql://${DATABASE_HOST:localhost}:${DATABASE_PORT:3306}/db_online_oj_platform_user?characterEncoding=utf8&useSSL=false
     username: ${DATABASE_USERNAME:root}
     password: ${DATABASE_PASSWORD:root}
     driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    redis:
+      host: ${REDIS_HOST:127.0.0.1}
+      port: 6379
+      password: ${REDIS_PASSWORD}
+      database: 0
+      timeout: 5000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 2
+          max-wait: 1000ms
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_HOST:127.0.0.1}:8848
+        username: ${NACOS_USERNAME:nacos}
+        password: ${NACOS_PASSWORD:nacos}
+    loadbalancer:
+      nacos:
+        enabled: true
 springdoc:
   api-docs:
     path: /v3/api-docs  # 更改 OpenAPI JSON/YAML 描述文件的路径，默认是 /v3/api-docs
@@ -21,6 +43,14 @@ knife4j:
   production: false # 不用于生产环境
   setting:
     language: zh_cn # 文档语言为中文
+sa-token:
+  token-name: Authorization      # 和你现在前端传的头一致
+  timeout: 43200                 # 12小时，对应你的 AUTHORIZATION_TOKEN_EXPIRE_TIME_HOURS
+  is-concurrent: false           # false = 单端登录，新登录踢掉旧的；true = 多端共存
+  # 你现在是"旧 token 续着用"，更接近 is-share: true 的玩法，见下方说明
+  is-share: true                 # 多端登录共用同一 token（对应你 generateJwtToken 里"有旧的用旧的"）
+  token-style: simple            # 配合 jwt 插件，实际样式由 StpLogicJwtForSimple 决定
+  jwt-secret-key: ${JWT_SECRET}  # 别再硬编码在代码里了，走环境变量
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true

@@ -26,6 +26,8 @@
         <mapstruct.version>1.6.3</mapstruct.version>
         <lombok.version>1.18.46</lombok.version>
         <knife4j.version>4.4.0</knife4j.version>
+        <nacos.version>2025.0.0.0</nacos.version>
+        <sa-token.version>1.42.0</sa-token.version>
     </properties>
 
     <dependencies>
@@ -53,6 +55,10 @@
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
                 <version>${nacos.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-loadbalancer</artifactId>
             </dependency>
             <dependency>
                 <groupId>org.mapstruct</groupId>
