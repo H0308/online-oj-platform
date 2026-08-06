@@ -1,6 +1,7 @@
 package org.epsda.user.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.epsda.base.utils.ResultWrapper;
 import org.epsda.base.utils.SecurityUtil;
@@ -26,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @RestController
 @RequestMapping("/sys-user")
+@Tag(name = "管理员用户接口")
 public class SystemUserController {
 
     @Resource

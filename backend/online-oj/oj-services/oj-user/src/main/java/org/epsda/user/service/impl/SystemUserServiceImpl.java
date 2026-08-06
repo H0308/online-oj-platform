@@ -8,6 +8,7 @@ import jakarta.annotation.Resource;
 import java.security.SecureRandom;
 
 import org.epsda.base.exception.UserException;
+import org.epsda.base.utils.RandomUtil;
 import org.epsda.user.constants.Constants;
 import org.epsda.user.controller.dto.SysUserAddDto;
 import org.epsda.user.controller.dto.SysUserChangePasswordDto;
@@ -152,7 +153,7 @@ public class SystemUserServiceImpl implements SystemUserService {
                     UserResponseStatus.USER_SAME_EMAIL_FAIL.getMessage());
         }
         // 随机生成密码
-        String password = generateRandomPassword();
+        String password = RandomUtil.generateRandomPassword();
         // 保存用户信息，密码目前明文
         SysUser sysUser = SysUser.builder().email(email)
                 .username(username)
@@ -183,7 +184,7 @@ public class SystemUserServiceImpl implements SystemUserService {
         int times = 0;
         String newPassword = "";
         while (times < MAX_PASSWORD_GENERATE_TIMES) {
-            newPassword = generateRandomPassword();
+            newPassword = RandomUtil.generateRandomPassword();
             // 非重复密码则直接退出，不再继续生成
             if (!sysUser.getPassword().equals(newPassword)) {
                 break;
@@ -230,19 +231,5 @@ public class SystemUserServiceImpl implements SystemUserService {
         }
 
         return fileUrl;
-    }
-
-    /**
-     * 随机生成密码
-     * @return 返回明文密码
-     */
-    private String generateRandomPassword() {
-        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        SecureRandom random = new SecureRandom();
-        StringBuilder password = new StringBuilder();
-        for (int i = 0; i < 12; i++) {
-            password.append(chars.charAt(random.nextInt(chars.length())));
-        }
-        return password.toString();
     }
 }

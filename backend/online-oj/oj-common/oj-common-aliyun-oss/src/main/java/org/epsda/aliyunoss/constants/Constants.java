@@ -11,7 +11,7 @@ import java.util.List;
  * Package Name: org.epsda.aliyunoss.constants
  * Project Name: online-oj
  */
-public record OssConstants() {
+public record Constants() {
     // 支持的图片文件后缀
     public static final List<String> SUPPORTED_IMAGE_EXTENSIONS =
             List.of(".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp");

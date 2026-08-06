@@ -1,12 +1,10 @@
 package org.epsda.aliyunoss.utils;
 
-import org.epsda.aliyunoss.constants.OssConstants;
+import org.epsda.aliyunoss.constants.Constants;
 import org.epsda.aliyunoss.enums.FileType;
 import org.epsda.aliyunoss.exception.OssException;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-
-import static org.epsda.aliyunoss.enums.FileType.IMAGE;
 
 /**
  * Created with IntelliJ IDEA.
@@ -35,8 +33,8 @@ public class FileTypeCheckUtil {
             throw new OssException("文件类型不能为空");
         }
         boolean isValid = switch (fileType) {
-            case IMAGE -> OssConstants.SUPPORTED_IMAGE_EXTENSIONS.contains(fileExtension) &&
-                    OssConstants.SUPPORTED_IMAGE_MIME.contains(contentType);
+            case IMAGE -> Constants.SUPPORTED_IMAGE_EXTENSIONS.contains(fileExtension) &&
+                    Constants.SUPPORTED_IMAGE_MIME.contains(contentType);
         };
 
         if (!isValid) {

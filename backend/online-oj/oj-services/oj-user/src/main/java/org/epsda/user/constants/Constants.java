@@ -10,5 +10,6 @@ package org.epsda.user.constants;
  * Project Name: online-oj
  */
 public record Constants() {
-    public static final String SYSTEM_USER_EMAIL_SUFFIX = "@epsda.admin.com";
+    public static final String SYSTEM_USER_EMAIL_SUFFIX = "@online-oj.admin.com";
+    public static final String USER_DEFAULT_EMAIL_SUFFIX = "@online-oj.com";
 }
