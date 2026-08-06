@@ -23,15 +23,20 @@ public class EntityMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void insertFill(MetaObject metaObject) {
+        long loginUserId = SecurityUtil.getLoginUserId();
+        LocalDateTime now = LocalDateTime.now();
         this.strictInsertFill(metaObject, "createBy",
-                Long.class, SecurityUtil.getLoginUserId());
+                Long.class, loginUserId);
         this.strictInsertFill(metaObject, "createTime",
-                LocalDateTime.class, LocalDateTime.now());
+                LocalDateTime.class, now);
+        // INSERT_UPDATE 字段在插入时也要填充
+        this.strictInsertFill(metaObject, "updateBy", Long.class, loginUserId);
+        this.strictInsertFill(metaObject, "updateTime", LocalDateTime.class, now);
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        log.info("更新人信息：{}", SecurityUtil.getLoginUserId());
+        // log.info("更新人信息：{}", SecurityUtil.getLoginUserId());
         this.strictUpdateFill(metaObject, "updateBy",
                 Long.class, SecurityUtil.getLoginUserId());
         this.strictUpdateFill(metaObject, "updateTime",
