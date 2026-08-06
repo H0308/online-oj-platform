@@ -25,7 +25,8 @@ public enum UserResponseStatus {
     USER_SAME_EMAIL_FAIL("USER_1006", "当前邮箱已存在"),
     USER_ADD_FAIL("USER_1007", "用户新增失败"),
     USER_PASSWORD_RESET_FAIL("USER_1008", "用户密码重置失败"),
-    USER_FILE_UPLOAD_FAIL("USER_1009", "文件上传失败");
+    USER_FILE_UPLOAD_FAIL("USER_1009", "文件上传失败"),
+    USER_INVALID_RESET_TYPE("USER_1010", "重置失败");
 
     private final String code;
     private final String message;

@@ -2,7 +2,9 @@ package org.epsda.user.service;
 
 import org.epsda.base.domain.PageVo;
 import org.epsda.user.controller.dto.UserAddDto;
+import org.epsda.user.controller.dto.UserInfoResetDto;
 import org.epsda.user.controller.vo.UserInfoVo;
+import org.epsda.user.enums.UserInfoResetType;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,4 +21,6 @@ public interface UserManageService {
     PageVo<UserInfoVo> list(Long currentPage, Long pageSize,
                             String username, Integer gender, String email,
                             String school, String major, Integer status);
+
+    Boolean resetInfo(UserInfoResetDto changeDto, UserInfoResetType resetType);
 }

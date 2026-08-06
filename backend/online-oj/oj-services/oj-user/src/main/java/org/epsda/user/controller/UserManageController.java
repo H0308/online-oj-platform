@@ -7,7 +7,9 @@ import org.epsda.base.domain.PageVo;
 import org.epsda.base.utils.ResultWrapper;
 import org.epsda.base.utils.SecurityUtil;
 import org.epsda.user.controller.dto.UserAddDto;
+import org.epsda.user.controller.dto.UserInfoResetDto;
 import org.epsda.user.controller.vo.UserInfoVo;
+import org.epsda.user.enums.UserInfoResetType;
 import org.epsda.user.enums.UserResponseStatus;
 import org.epsda.user.service.UserManageService;
 import org.springframework.validation.annotation.Validated;
@@ -55,13 +57,42 @@ public class UserManageController {
                         school, major, status));
     }
 
-    // 修改用户个人信息（不包括密码）
+    // 重置用户名
+    @Operation(summary = "重置用户名")
+    @PostMapping("/reset-username")
+    public ResultWrapper<Boolean> resetUsername(@Validated @RequestBody UserInfoResetDto changeDto) {
+        SecurityUtil.checkHorizontalPermission(changeDto.getCurrentUserId());
+        return ResultWrapper.ok(UserResponseStatus.USER_OK.getCode(),
+                userManageService.resetInfo(changeDto, UserInfoResetType.USERNAME));
+    }
+
+    // 重置用户头像
+    @Operation(summary = "重置用户头像")
+    @PostMapping("/reset-avatar")
+    public ResultWrapper<Boolean> resetAvatar(@Validated @RequestBody UserInfoResetDto changeDto) {
+        return ResultWrapper.ok(UserResponseStatus.USER_OK.getCode(),
+                userManageService.resetInfo(changeDto, UserInfoResetType.AVATAR));
+    }
+
+    // 重置用户密码
+    @Operation(summary = "重置用户密码")
+    @PostMapping("/reset-password")
+    public ResultWrapper<Boolean> resetPassword(@Validated @RequestBody UserInfoResetDto changeDto) {
+        return ResultWrapper.ok(UserResponseStatus.USER_OK.getCode(),
+                userManageService.resetInfo(changeDto, UserInfoResetType.PASSWORD));
+    }
+
+    // 重置用户实名状态
+    @Operation(summary = "重置用户实名状态")
+    @PostMapping("/reset-real-name-auth")
+    public ResultWrapper<Boolean> resetRealNameAuth(@Validated @RequestBody UserInfoResetDto changeDto) {
+        return ResultWrapper.ok(UserResponseStatus.USER_OK.getCode(),
+                userManageService.resetInfo(changeDto, UserInfoResetType.REAL_NAME_AUTH));
+    }
 
     // 删除用户
 
     // 批量删除用户
-
-    // 重置用户密码
 
     // 封禁用户
 

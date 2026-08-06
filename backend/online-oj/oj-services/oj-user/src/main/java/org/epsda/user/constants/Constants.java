@@ -12,4 +12,6 @@ package org.epsda.user.constants;
 public record Constants() {
     public static final String SYSTEM_USER_EMAIL_SUFFIX = "@online-oj.admin.com";
     public static final String USER_DEFAULT_EMAIL_SUFFIX = "@online-oj.com";
+    public static final String DEFAULT_AVATAR_URL =
+            "https://online-oj-platform-bucket.oss-cn-hangzhou.aliyuncs.com/default_avatar.png";
 }
