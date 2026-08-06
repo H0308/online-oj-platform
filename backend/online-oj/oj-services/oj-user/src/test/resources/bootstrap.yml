@@ -1,0 +1,30 @@
+# ------------------------------
+# 用于测试上下文的bootstrap文件
+# ------------------------------
+spring:
+  application:
+    name: oj-user
+  datasource:
+    url: jdbc:mysql://localhost:3306/db_online_oj_platform_user?characterEncoding=utf8&useSSL=false
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      password:
+      database: 0
+aliyun:
+  oss:
+    endpoint: http://localhost
+    access-key-id: test
+    access-key-secret: test
+    bucket-name: test
+sa-token:
+  token-name: Authorization
+  timeout: 43200
+  is-concurrent: false
+  is-share: true
+  token-style: simple
+  jwt-secret-key: test-secret-key
