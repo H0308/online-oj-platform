@@ -6,6 +6,7 @@ import jakarta.annotation.Resource;
 import org.epsda.base.utils.ResultWrapper;
 import org.epsda.base.utils.SecurityUtil;
 import org.epsda.user.controller.dto.SchoolAddDto;
+import org.epsda.user.controller.dto.SchoolChangeDto;
 import org.epsda.user.enums.SchoolResponseStatus;
 import org.epsda.user.service.SchoolService;
 import org.springframework.validation.annotation.Validated;
@@ -41,6 +42,13 @@ public class SchoolController {
     }
 
     // 修改学校
+    @Operation(summary = "修改学校")
+    @PostMapping("/change-school")
+    public ResultWrapper<Boolean> changeSchool(@Validated @RequestBody SchoolChangeDto changeDto) {
+        SecurityUtil.checkHorizontalPermission(changeDto.getUserId());
+        return ResultWrapper.ok(SchoolResponseStatus.SCHOOL_OK.getCode(),
+                schoolService.changeSchool(changeDto));
+    }
 
     // 单独/批量删除学校
 

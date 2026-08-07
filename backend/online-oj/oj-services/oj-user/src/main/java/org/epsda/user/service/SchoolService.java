@@ -1,6 +1,7 @@
 package org.epsda.user.service;
 
 import org.epsda.user.controller.dto.SchoolAddDto;
+import org.epsda.user.controller.dto.SchoolChangeDto;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,4 +14,6 @@ import org.epsda.user.controller.dto.SchoolAddDto;
  */
 public interface SchoolService {
     Boolean add(SchoolAddDto addDto);
+
+    Boolean changeSchool(SchoolChangeDto changeDto);
 }
