@@ -1,0 +1,48 @@
+package org.epsda.user.controller;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
+import org.epsda.base.utils.ResultWrapper;
+import org.epsda.base.utils.SecurityUtil;
+import org.epsda.user.controller.dto.SchoolAddDto;
+import org.epsda.user.enums.SchoolResponseStatus;
+import org.epsda.user.service.SchoolService;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * Created with IntelliJ IDEA.
+ * Description: 学校信息控制器
+ * Author: EPSDA
+ * Date: 2026/08/07
+ * Time: 13:36
+ * Package Name: org.epsda.user.controller
+ * Project Name: online-oj
+ */
+@RestController
+@RequestMapping("/school")
+@Tag(name = "学校信息设置与获取接口")
+public class SchoolController {
+
+    @Resource
+    private SchoolService schoolService;
+
+    // 新增学校
+    @Operation(summary = "新增学校")
+    @PostMapping("/add")
+    public ResultWrapper<Boolean> add(@Validated @RequestBody SchoolAddDto addDto) {
+        SecurityUtil.checkHorizontalPermission(addDto.getUserId());
+        return ResultWrapper.ok(SchoolResponseStatus.SCHOOL_OK.getCode(),
+                schoolService.add(addDto));
+    }
+
+    // 修改学校
+
+    // 单独/批量删除学校
+
+    // 获取学校列表
+}
