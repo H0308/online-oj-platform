@@ -87,10 +87,15 @@ public class UserManageServiceImpl implements UserManageService {
         Page<User> userPages = userMapper.selectPage(page,
                 new LambdaQueryWrapper<User>()
                         .like(StringUtils.hasText(queryString), User::getUsername, queryString)
+                        .or(StringUtils.hasText(queryString))
                         .like(StringUtils.hasText(queryString), User::getEmail, queryString)
+                        .or(gender != null)
                         .eq(gender != null, User::getGender, gender)
+                        .or(schoolId != null)
                         .eq(schoolId != null, User::getSchoolId, schoolId)
+                        .or(majorId != null)
                         .eq(majorId != null, User::getMajorId, majorId)
+                        .or(status != null)
                         .eq(status != null, User::getStatus, status));
 
         return PageVo.<UserInfoVo>builder()
