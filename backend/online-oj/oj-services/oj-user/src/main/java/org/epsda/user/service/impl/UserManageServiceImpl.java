@@ -18,6 +18,7 @@ import org.epsda.user.enums.UserResponseStatus;
 import org.epsda.user.mapper.UserMapper;
 import org.epsda.user.service.UserManageService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -125,10 +126,13 @@ public class UserManageServiceImpl implements UserManageService {
      * @return 成功删除的条目个数
      */
     @Override
+    @Transactional
     public Integer batchDelete(List<Long> targetUserIds) {
         if (targetUserIds.isEmpty()) {
             return 0;
         }
+
+        // 检测是否有约束条件限制删除，当前暂不实现
 
         return userMapper.deleteByIds(targetUserIds);
     }
