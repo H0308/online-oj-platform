@@ -3,12 +3,14 @@ package org.epsda.user.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.epsda.base.domain.PageVo;
 import org.epsda.base.utils.ResultWrapper;
 import org.epsda.base.utils.SecurityUtil;
 import org.epsda.user.controller.dto.SysUserAddDto;
 import org.epsda.user.controller.dto.SysUserChangePasswordDto;
 import org.epsda.user.controller.dto.SysUserLoginDto;
 import org.epsda.user.controller.dto.SysUserResetPasswordDto;
+import org.epsda.user.controller.vo.SysUserInfoVo;
 import org.epsda.user.controller.vo.UserLoginVo;
 import org.epsda.user.enums.UserResponseStatus;
 import org.epsda.user.service.SystemUserService;
@@ -85,5 +87,15 @@ public class SystemUserController {
         SecurityUtil.checkHorizontalPermission(userId);
         return ResultWrapper.ok(UserResponseStatus.USER_OK.getCode(),
                 systemUserService.uploadAvatar(userId, file));
+    }
+
+    // 获取管理员用户列表
+    @Operation(summary = "获取管理员用户列表")
+    @GetMapping("/list")
+    public ResultWrapper<PageVo<SysUserInfoVo>> list(@RequestParam("currentPage") Long currentPage,
+                                                    @RequestParam("pageSize") Long pageSize,
+                                                    @RequestParam("queryString") String queryString) {
+        return ResultWrapper.ok(UserResponseStatus.USER_OK.getCode(),
+                systemUserService.list(currentPage, pageSize, queryString));
     }
 }

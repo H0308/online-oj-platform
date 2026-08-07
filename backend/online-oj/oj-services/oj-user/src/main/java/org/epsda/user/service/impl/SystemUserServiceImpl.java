@@ -3,10 +3,12 @@ package org.epsda.user.service.impl;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import jakarta.annotation.Resource;
 
 import java.security.SecureRandom;
 
+import org.epsda.base.domain.PageVo;
 import org.epsda.base.exception.UserException;
 import org.epsda.base.utils.RandomUtil;
 import org.epsda.user.constants.Constants;
@@ -14,13 +16,16 @@ import org.epsda.user.controller.dto.SysUserAddDto;
 import org.epsda.user.controller.dto.SysUserChangePasswordDto;
 import org.epsda.user.controller.dto.SysUserLoginDto;
 import org.epsda.user.controller.dto.SysUserResetPasswordDto;
+import org.epsda.user.controller.vo.SysUserInfoVo;
 import org.epsda.user.controller.vo.UserLoginVo;
+import org.epsda.user.convert.SysUserConvert;
 import org.epsda.user.entity.SysUser;
 import org.epsda.user.enums.UserResponseStatus;
 import org.epsda.user.manager.FileManager;
 import org.epsda.user.mapper.SysUserMapper;
 import org.epsda.user.service.SystemUserService;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -39,6 +44,8 @@ public class SystemUserServiceImpl implements SystemUserService {
     private SysUserMapper sysUserMapper;
     @Resource
     private FileManager fileManager;
+    @Resource
+    private SysUserConvert sysUserConvert;
 
     private static final int MAX_PASSWORD_GENERATE_TIMES = 3;
 
@@ -231,5 +238,29 @@ public class SystemUserServiceImpl implements SystemUserService {
         }
 
         return fileUrl;
+    }
+
+    /**
+     * 分页展示管理员信息列表
+     * @param currentPage 当前页码
+     * @param pageSize 页面内容数量
+     * @param queryString 查询内容，支持邮箱和用户名
+     * @return 带分页的管理员信息列表
+     */
+    @Override
+    public PageVo<SysUserInfoVo> list(Long currentPage, Long pageSize, String queryString) {
+        Page<SysUser> page = new Page<>(currentPage, pageSize);
+        Page<SysUser> sysUserPages = sysUserMapper.selectPage(page,
+                new LambdaQueryWrapper<SysUser>()
+                        .like(StringUtils.hasText(queryString), SysUser::getUsername, queryString)
+                        .or(StringUtils.hasText(queryString))
+                        .like(StringUtils.hasText(queryString), SysUser::getEmail, queryString));
+
+        return PageVo.<SysUserInfoVo>builder()
+                .currentPage(currentPage)
+                .totalPages(sysUserPages.getPages())
+                .totalCount(sysUserPages.getTotal())
+                .totalRecords(sysUserConvert.toSysUserInfoVoList(sysUserPages.getRecords()))
+                .build();
     }
 }
