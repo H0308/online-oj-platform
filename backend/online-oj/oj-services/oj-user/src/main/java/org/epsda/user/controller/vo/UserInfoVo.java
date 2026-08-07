@@ -29,8 +29,8 @@ public class UserInfoVo {
     private Boolean isRealNameAuth; // 是否实名认证（同时绑定姓名和身份证号）
     private String avatarUrl;
     private String phone;
-    private String schoolName;
-    private String majorName;
+    private Long schoolId;
+    private Long majorId;
     private Integer status;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;

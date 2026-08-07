@@ -49,12 +49,12 @@ public class UserManageController {
             @RequestParam(value = "username", required = false) String username,
             @RequestParam(value = "gender", required = false) Integer gender,
             @RequestParam(value = "email", required = false) String email,
-            @RequestParam(value = "school", required = false) String school,
-            @RequestParam(value = "major", required = false) String major,
+            @RequestParam(value = "school", required = false) Long schoolId,
+            @RequestParam(value = "major", required = false) Long majorId,
             @RequestParam(value = "status", required = false) Integer status) {
         return ResultWrapper.ok(UserResponseStatus.USER_OK.getCode(),
                 userManageService.list(currentPage, pageSize, username, gender, email,
-                        school, major, status));
+                        schoolId, majorId, status));
     }
 
     // 重置用户名

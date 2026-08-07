@@ -32,7 +32,7 @@ public class User extends BaseEntity {
     private String idCard;
     private String avatarUrl;
     private String phone;
-    private String schoolName;
-    private String majorName;
+    private Long schoolId;
+    private Long majorId;
     private Integer status;
 }

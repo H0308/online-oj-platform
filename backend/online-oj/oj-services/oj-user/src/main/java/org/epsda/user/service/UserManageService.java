@@ -20,7 +20,7 @@ public interface UserManageService {
 
     PageVo<UserInfoVo> list(Long currentPage, Long pageSize,
                             String username, Integer gender, String email,
-                            String school, String major, Integer status);
+                            Long schoolId, Long majorId, Integer status);
 
     Boolean resetInfo(UserInfoResetDto changeDto, UserInfoResetType resetType);
 }

@@ -70,23 +70,23 @@ public class UserManageServiceImpl implements UserManageService {
      * @param username 用户名，可以用于筛选
      * @param gender 性别，可以用于筛选
      * @param email 邮箱，可以用于筛选
-     * @param school 学校名称，可以用于筛选
-     * @param major 主修专业，可以用于筛选
+     * @param schoolId 学校ID，可以用于筛选
+     * @param majorId 主修ID，可以用于筛选
      * @param status 用户状态，可以用于筛选
      * @return 带分页的用户信息列表
      */
     @Override
     public PageVo<UserInfoVo> list(Long currentPage, Long pageSize,
                                 String username, Integer gender, String email,
-                                String school, String major, Integer status) {
+                                Long schoolId, Long majorId, Integer status) {
         Page<User> page = new Page<>(currentPage, pageSize);
         Page<User> userPages = userMapper.selectPage(page,
                 new LambdaQueryWrapper<User>()
                         .like(StringUtils.hasText(username), User::getUsername, username)
                         .like(StringUtils.hasText(email), User::getEmail, email)
                         .eq(gender != null, User::getGender, gender)
-                        .like(StringUtils.hasText(school), User::getSchoolName, school)
-                        .like(StringUtils.hasText(major), User::getMajorName, major)
+                        .eq(schoolId != null, User::getSchoolId, schoolId)
+                        .eq(majorId != null, User::getMajorId, majorId)
                         .eq(status != null, User::getStatus, status));
 
         return PageVo.<UserInfoVo>builder()
