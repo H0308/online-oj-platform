@@ -3,10 +3,12 @@ package org.epsda.user.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.epsda.base.domain.PageVo;
 import org.epsda.base.utils.ResultWrapper;
 import org.epsda.base.utils.SecurityUtil;
 import org.epsda.user.controller.dto.SchoolAddDto;
 import org.epsda.user.controller.dto.SchoolChangeDto;
+import org.epsda.user.controller.vo.SchoolInfoVo;
 import org.epsda.user.enums.SchoolResponseStatus;
 import org.epsda.user.service.SchoolService;
 import org.springframework.validation.annotation.Validated;
@@ -60,4 +62,12 @@ public class SchoolController {
     }
 
     // 获取学校列表
+    @Operation(summary = "获取学校列表")
+    @GetMapping("/list")
+    public ResultWrapper<PageVo<SchoolInfoVo>> list(@RequestParam("currentPage") Long currentPage,
+                                                    @RequestParam("pageSize") Long pageSize,
+                        @RequestParam(value = "queryString", required = false) String queryString) {
+        return ResultWrapper.ok(SchoolResponseStatus.SCHOOL_OK.getCode(),
+                schoolService.list(currentPage, pageSize, queryString));
+    }
 }

@@ -1,7 +1,9 @@
 package org.epsda.user.service;
 
+import org.epsda.base.domain.PageVo;
 import org.epsda.user.controller.dto.SchoolAddDto;
 import org.epsda.user.controller.dto.SchoolChangeDto;
+import org.epsda.user.controller.vo.SchoolInfoVo;
 
 import java.util.List;
 
@@ -20,4 +22,6 @@ public interface SchoolService {
     Boolean changeSchool(SchoolChangeDto changeDto);
 
     Integer batchDelete(List<Long> schoolIds);
+
+    PageVo<SchoolInfoVo> list(Long currentPage, Long pageSize, String queryString);
 }

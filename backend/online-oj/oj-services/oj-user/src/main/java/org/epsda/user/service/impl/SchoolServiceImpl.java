@@ -2,10 +2,14 @@ package org.epsda.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import jakarta.annotation.Resource;
+import org.epsda.base.domain.PageVo;
 import org.epsda.base.exception.SchoolException;
 import org.epsda.user.controller.dto.SchoolAddDto;
 import org.epsda.user.controller.dto.SchoolChangeDto;
+import org.epsda.user.controller.vo.SchoolInfoVo;
+import org.epsda.user.convert.SchoolConvert;
 import org.epsda.user.entity.School;
 import org.epsda.user.enums.SchoolResponseStatus;
 import org.epsda.user.mapper.SchoolMapper;
@@ -33,6 +37,8 @@ public class SchoolServiceImpl implements SchoolService {
     private SchoolMapper schoolMapper;
     @Resource
     private UserService userService;
+    @Resource
+    private SchoolConvert schoolConvert;
 
     /**
      * 新增学校
@@ -135,5 +141,29 @@ public class SchoolServiceImpl implements SchoolService {
 
         // 没有则可以删除
         return schoolMapper.deleteByIds(schoolIds);
+    }
+
+    /**
+     * 分页获取学校信息列表
+     * @param currentPage 当前页码
+     * @param pageSize 每页数据数量
+     * @param queryString 查询内容，目前支持对应学校名称和学校代码
+     * @return 学校信息分页数据
+     */
+    @Override
+    public PageVo<SchoolInfoVo> list(Long currentPage, Long pageSize, String queryString) {
+        Page<School> page = new Page<>(currentPage, pageSize);
+        Page<School> schoolPages = schoolMapper.selectPage(page,
+                new LambdaQueryWrapper<School>()
+                        .like(StringUtils.hasText(queryString), School::getSchoolChineseName, queryString)
+                        .or(StringUtils.hasText(queryString))
+                        .like(StringUtils.hasText(queryString), School::getSchoolCode, queryString));
+
+        return PageVo.<SchoolInfoVo>builder()
+                .currentPage(currentPage)
+                .totalPages(schoolPages.getPages())
+                .totalCount(schoolPages.getTotal())
+                .totalRecords(schoolConvert.toSchoolInfoVoList(schoolPages.getRecords()))
+                .build();
     }
 }
