@@ -98,7 +98,7 @@ public class SchoolServiceImpl implements SchoolService {
         School existedSchool = schoolMapper.selectOne(new LambdaQueryWrapper<School>()
                 .eq(StringUtils.hasText(schoolChineseName), School::getSchoolChineseName,
                         schoolChineseName).or(StringUtils.hasText(schoolCode))
-                .eq(School::getSchoolCode, schoolCode));
+                .eq(StringUtils.hasText(schoolCode), School::getSchoolCode, schoolCode));
         if (existedSchool != null) {
             throw new SchoolException(SchoolResponseStatus.SCHOOL_EXISTED_FAIL.getCode(),
                     SchoolResponseStatus.SCHOOL_EXISTED_FAIL.getMessage());
