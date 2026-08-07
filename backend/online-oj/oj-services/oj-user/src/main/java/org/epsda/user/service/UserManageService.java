@@ -1,9 +1,11 @@
 package org.epsda.user.service;
 
 import org.epsda.base.domain.PageVo;
+import org.epsda.user.controller.dto.BatchBanOpDto;
 import org.epsda.user.controller.dto.UserAddDto;
 import org.epsda.user.controller.dto.UserInfoResetDto;
 import org.epsda.user.controller.vo.UserInfoVo;
+import org.epsda.user.enums.UserBanOpType;
 import org.epsda.user.enums.UserInfoResetType;
 
 import java.util.List;
@@ -26,4 +28,6 @@ public interface UserManageService {
     Boolean resetInfo(UserInfoResetDto changeDto, UserInfoResetType resetType);
 
     Integer batchDelete(List<Long> targetUserIds);
+
+    Integer batchBanOp(BatchBanOpDto banDto, UserBanOpType banOpType);
 }

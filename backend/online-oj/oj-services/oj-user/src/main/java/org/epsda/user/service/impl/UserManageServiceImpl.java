@@ -8,6 +8,7 @@ import org.epsda.base.domain.PageVo;
 import org.epsda.base.exception.UserException;
 import org.epsda.base.utils.RandomUtil;
 import org.epsda.user.constants.Constants;
+import org.epsda.user.controller.dto.BatchBanOpDto;
 import org.epsda.user.controller.dto.UserAddDto;
 import org.epsda.user.controller.dto.UserInfoResetDto;
 import org.epsda.user.controller.vo.UserInfoVo;
@@ -15,12 +16,14 @@ import org.epsda.user.convert.UserConvert;
 import org.epsda.user.entity.User;
 import org.epsda.user.enums.UserInfoResetType;
 import org.epsda.user.enums.UserResponseStatus;
+import org.epsda.user.enums.UserBanOpType;
 import org.epsda.user.mapper.UserMapper;
 import org.epsda.user.service.UserManageService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -126,7 +129,7 @@ public class UserManageServiceImpl implements UserManageService {
      * @return 成功删除的条目个数
      */
     @Override
-    @Transactional
+    // @Transactional // 暂时移除事务，后续有多张表删除的再考虑事务
     public Integer batchDelete(List<Long> targetUserIds) {
         if (targetUserIds.isEmpty()) {
             return 0;
@@ -135,6 +138,39 @@ public class UserManageServiceImpl implements UserManageService {
         // 检测是否有约束条件限制删除，当前暂不实现
 
         return userMapper.deleteByIds(targetUserIds);
+    }
+
+    /**
+     * 批量封禁用户
+     * @param banDto 批量封禁请求实体
+     * @return 成功封禁用户个数
+     */
+    @Override
+    public Integer batchBanOp(BatchBanOpDto banDto, UserBanOpType banOpType) {
+        List<Long> targetUserIds = banDto.getTargetUserIds();
+        if (targetUserIds.isEmpty()) {
+            return 0;
+        }
+
+        List<User> users = userMapper.selectList(new LambdaQueryWrapper<User>().in(User::getId, targetUserIds));
+        List<Long> needUpdateUserIds = new ArrayList<>();
+        // 判断是否本身就是指定状态，如果是则拒绝
+        for (User user : users) {
+            if (!user.getStatus().equals(banOpType.getCode())) {
+                needUpdateUserIds.add(user.getId());
+            }
+        }
+
+        // 如果排除之后列表为0，则直接返回0
+        if (needUpdateUserIds.isEmpty()) {
+            return 0;
+        }
+
+        // 否则更新
+        return userMapper.update(new User(),
+                new LambdaUpdateWrapper<User>()
+                    .in(User::getId, needUpdateUserIds)
+                    .set(User::getStatus, banOpType.getCode()));
     }
 
     /**

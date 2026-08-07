@@ -16,7 +16,8 @@ import java.util.List;
  * Package Name: org.epsda.user.converter
  * Project Name: online-oj
  */
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
+        unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserConvert {
 
     // User 实体转换为 UserInfoVo

@@ -6,9 +6,11 @@ import jakarta.annotation.Resource;
 import org.epsda.base.domain.PageVo;
 import org.epsda.base.utils.ResultWrapper;
 import org.epsda.base.utils.SecurityUtil;
+import org.epsda.user.controller.dto.BatchBanOpDto;
 import org.epsda.user.controller.dto.UserAddDto;
 import org.epsda.user.controller.dto.UserInfoResetDto;
 import org.epsda.user.controller.vo.UserInfoVo;
+import org.epsda.user.enums.UserBanOpType;
 import org.epsda.user.enums.UserInfoResetType;
 import org.epsda.user.enums.UserResponseStatus;
 import org.epsda.user.service.UserManageService;
@@ -96,11 +98,28 @@ public class UserManageController {
     @DeleteMapping("/batchDelete")
     public ResultWrapper<Integer> batchDelete(@RequestParam("currentUserId") Long currentUserId,
                                             @RequestParam("targetUserIds") List<Long> targetUserIds) {
+        SecurityUtil.checkHorizontalPermission(currentUserId);
         return ResultWrapper.ok(UserResponseStatus.USER_OK.getCode(),
                 userManageService.batchDelete(targetUserIds));
     }
 
-    // 封禁用户
+    // 单独/批量封禁用户
+    @Operation(summary = "单独/批量封禁用户")
+    @PostMapping("/batchBan")
+    public ResultWrapper<Integer> batchBan(@Validated @RequestBody BatchBanOpDto banDto) {
+        SecurityUtil.checkHorizontalPermission(banDto.getCurrentUserId());
+        return ResultWrapper.ok(UserResponseStatus.USER_OK.getCode(),
+                userManageService.batchBanOp(banDto, UserBanOpType.BANNED));
+    }
+
+    // 单独/批量取消封禁用户
+    @Operation(summary = "单独/批量取消封禁用户")
+    @PostMapping("/batchUnBan")
+    public ResultWrapper<Integer> batchUnBan(@Validated @RequestBody BatchBanOpDto banDto) {
+        SecurityUtil.checkHorizontalPermission(banDto.getCurrentUserId());
+        return ResultWrapper.ok(UserResponseStatus.USER_OK.getCode(),
+                userManageService.batchBanOp(banDto, UserBanOpType.NORMAL));
+    }
 
     // 批量新增用户（需要提供具体模板）
 }
