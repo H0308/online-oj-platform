@@ -10,8 +10,12 @@ import org.epsda.user.entity.School;
 import org.epsda.user.enums.SchoolResponseStatus;
 import org.epsda.user.mapper.SchoolMapper;
 import org.epsda.user.service.SchoolService;
+import org.epsda.user.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -27,7 +31,14 @@ public class SchoolServiceImpl implements SchoolService {
 
     @Resource
     private SchoolMapper schoolMapper;
+    @Resource
+    private UserService userService;
 
+    /**
+     * 新增学校
+     * @param addDto 新增学校请求实体
+     * @return 新增成功返回true，否则返回false
+     */
     @Override
     public Boolean add(SchoolAddDto addDto) {
         String schoolCode = addDto.getSchoolCode();
@@ -52,6 +63,11 @@ public class SchoolServiceImpl implements SchoolService {
         return true;
     }
 
+    /**
+     * 修改学校信息
+     * @param changeDto 修改学校信息请求实体
+     * @return 修改成功返回true，否则返回false
+     */
     @Override
     public Boolean changeSchool(SchoolChangeDto changeDto) {
         String schoolChineseName = changeDto.getSchoolChineseName();
@@ -93,5 +109,31 @@ public class SchoolServiceImpl implements SchoolService {
         }
 
         return true;
+    }
+
+    /**
+     * 批量删除学校信息，虚拟删除，如果学校已经被用户引用，则不能删除
+     * @param schoolIds 学校ID
+     * @return 返回成功删除的学校个数
+     */
+    @Override
+    public Integer batchDelete(List<Long> schoolIds) {
+        if (schoolIds.isEmpty()) {
+            return 0;
+        }
+
+        // 校验学校是否已经被引用
+        Map<Long, Long> userSchoolCountMap =
+                userService.listUserCountWithSchoolId(schoolIds);
+        for (Long schoolId : schoolIds) {
+            if (userSchoolCountMap.containsKey(schoolId) &&
+                userSchoolCountMap.get(schoolId) > 0L) {
+                throw new SchoolException(SchoolResponseStatus.SCHOOL_WITH_USER_FAIL.getCode(),
+                        SchoolResponseStatus.SCHOOL_WITH_USER_FAIL.getMessage());
+            }
+        }
+
+        // 没有则可以删除
+        return schoolMapper.deleteByIds(schoolIds);
     }
 }

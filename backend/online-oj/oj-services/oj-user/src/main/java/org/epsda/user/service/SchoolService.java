@@ -3,6 +3,8 @@ package org.epsda.user.service;
 import org.epsda.user.controller.dto.SchoolAddDto;
 import org.epsda.user.controller.dto.SchoolChangeDto;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * Description: 学校信息接口类
@@ -16,4 +18,6 @@ public interface SchoolService {
     Boolean add(SchoolAddDto addDto);
 
     Boolean changeSchool(SchoolChangeDto changeDto);
+
+    Integer batchDelete(List<Long> schoolIds);
 }

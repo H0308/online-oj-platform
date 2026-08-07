@@ -19,7 +19,9 @@ public enum SchoolResponseStatus {
     SCHOOL_EXISTED_FAIL("SCHOOL_1000", "当前学校已存在"),
     SCHOOL_ADD_FAIL("SCHOOL_1001", "学校信息新增失败"),
     SCHOOL_NOT_FOUND("SCHOOL_1002", "学校不存在"),
-    SCHOOL_UPDATE_FAIL("SCHOOL_1003", "学校信息更新失败");
+    SCHOOL_UPDATE_FAIL("SCHOOL_1003", "学校信息更新失败"),
+    SCHOOL_WITH_USER_FAIL("SCHOOL_1004", "学校存在使用用户"),
+    SCHOOL_DELETE_FAIL("SCHOOL_1005", "学校信息删除失败");
 
     private final String code;
     private final String message;

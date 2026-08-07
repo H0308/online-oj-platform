@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.epsda.user.mapper.UserMapper">
+
+    <select id="countBySchoolIds" resultType="java.util.HashMap">
+        SELECT school_id AS schoolId, COUNT(*) AS count
+        FROM tb_user
+        WHERE school_id IN
+        <foreach collection="schoolIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        AND delete_flag = 0
+        GROUP BY school_id
+    </select>
+
+</mapper>

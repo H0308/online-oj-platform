@@ -28,3 +28,15 @@ sa-token:
   is-share: true
   token-style: simple
   jwt-secret-key: test-secret-key
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      table-prefix: tb_ # 表前缀
+      id-type: ASSIGN_ID # 主键id（雪花算法）
+      # 逻辑删除字段。使用逻辑删除，mybatis-plus提供的方法可以不带逻辑删除的查询条件
+      logic-delete-field: deleteFlag
+      logic-delete-value: 1 # 逻辑删除值
+      logic-not-delete-value: 0 # 逻辑未删除值

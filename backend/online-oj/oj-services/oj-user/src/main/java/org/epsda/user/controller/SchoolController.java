@@ -10,10 +10,9 @@ import org.epsda.user.controller.dto.SchoolChangeDto;
 import org.epsda.user.enums.SchoolResponseStatus;
 import org.epsda.user.service.SchoolService;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -51,6 +50,14 @@ public class SchoolController {
     }
 
     // 单独/批量删除学校
+    @Operation(summary = "单独/批量删除学校")
+    @DeleteMapping("/batchDelete")
+    public ResultWrapper<Integer> batchDelete(@RequestParam("userId") Long userId,
+                                        @RequestParam("schoolIds") List<Long> schoolIds) {
+        SecurityUtil.checkHorizontalPermission(userId);
+        return ResultWrapper.ok(SchoolResponseStatus.SCHOOL_OK.getCode(),
+                schoolService.batchDelete(schoolIds));
+    }
 
     // 获取学校列表
 }
