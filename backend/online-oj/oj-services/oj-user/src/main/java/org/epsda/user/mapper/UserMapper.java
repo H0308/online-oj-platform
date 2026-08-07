@@ -26,4 +26,11 @@ public interface UserMapper extends BaseMapper<User> {
      * @return 学校ID与用户数量的映射列表
      */
     List<Map<String, Object>> countBySchoolIds(@Param("schoolIds") List<Long> schoolIds);
+
+    /**
+     * 根据专业ID统计有效用户数量
+     * @param majorIds 专业ID列表
+     * @return 专业ID与用户数量的映射列表
+     */
+    List<Map<String, Object>> countByMajorIds(@Param("majorIds") List<Long> majorIds);
 }

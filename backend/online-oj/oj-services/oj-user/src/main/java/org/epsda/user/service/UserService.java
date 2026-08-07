@@ -16,4 +16,7 @@ public interface UserService {
 
     // 根据指定的学校ID查询出有多少个关联用户
     Map<Long, Long> listUserCountWithSchoolId(List<Long> schoolIds);
+
+    // 根据指定的专业ID查询出有多少个关联用户
+    Map<Long, Long> listUserCountWithMajorId(List<Long> majorIds);
 }

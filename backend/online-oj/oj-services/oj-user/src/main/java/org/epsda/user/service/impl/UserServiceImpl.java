@@ -45,4 +45,26 @@ public class UserServiceImpl implements UserService {
 
         return userSchoolCountMap;
     }
+
+    /**
+     * 根据指定的专业ID查询出有多少个关联用户
+     * @param majorIds 专业ID
+     * @return 专业ID与未被删除的用户个数映射Map
+     */
+    @Override
+    public Map<Long, Long> listUserCountWithMajorId(List<Long> majorIds) {
+        if (majorIds.isEmpty()) {
+            return new HashMap<>();
+        }
+
+        List<Map<String, Object>> countList = userMapper.countByMajorIds(majorIds);
+        Map<Long, Long> userMajorCountMap = new HashMap<>();
+        for (Map<String, Object> result : countList) {
+            Long majorId = ((Number) result.get("majorId")).longValue();
+            Long count = ((Number) result.get("count")).longValue();
+            userMajorCountMap.put(majorId, count);
+        }
+
+        return userMajorCountMap;
+    }
 }
