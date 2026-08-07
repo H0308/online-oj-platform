@@ -64,8 +64,8 @@ mybatis-plus:
       id-type: ASSIGN_ID # 主键id（雪花算法）
       # 逻辑删除字段。使用逻辑删除，mybatis-plus提供的方法可以不带逻辑删除的查询条件
       logic-delete-field: deleteFlag
-      logic-delete-value: true # 逻辑删除值
-      logic-not-delete-value: false # 逻辑未删除值
+      logic-delete-value: 1 # 逻辑删除值
+      logic-not-delete-value: 0 # 逻辑未删除值
 aliyun:
   oss:
     endpoint: ${ALIYUN_OSS_ENDPOINT}

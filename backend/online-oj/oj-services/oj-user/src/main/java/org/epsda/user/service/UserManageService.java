@@ -6,6 +6,8 @@ import org.epsda.user.controller.dto.UserInfoResetDto;
 import org.epsda.user.controller.vo.UserInfoVo;
 import org.epsda.user.enums.UserInfoResetType;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * Description: 管理员操作普通用户接口类
@@ -18,9 +20,10 @@ import org.epsda.user.enums.UserInfoResetType;
 public interface UserManageService {
     Boolean add(UserAddDto addDto);
 
-    PageVo<UserInfoVo> list(Long currentPage, Long pageSize,
-                            String username, Integer gender, String email,
+    PageVo<UserInfoVo> list(Long currentPage, Long pageSize, Integer gender, String queryString,
                             Long schoolId, Long majorId, Integer status);
 
     Boolean resetInfo(UserInfoResetDto changeDto, UserInfoResetType resetType);
+
+    Integer batchDelete(List<Long> targetUserIds);
 }

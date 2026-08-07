@@ -20,6 +20,8 @@ import org.epsda.user.service.UserManageService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * Description: 管理员操作普通用户接口实现类
@@ -67,23 +69,21 @@ public class UserManageServiceImpl implements UserManageService {
      * 获取所有普通用户信息列表
      * @param currentPage 当前页码
      * @param pageSize 当前页数据量
-     * @param username 用户名，可以用于筛选
+     * @param queryString 搜索框内容，目前只会用于检索用户名和邮箱
      * @param gender 性别，可以用于筛选
-     * @param email 邮箱，可以用于筛选
      * @param schoolId 学校ID，可以用于筛选
      * @param majorId 主修ID，可以用于筛选
      * @param status 用户状态，可以用于筛选
      * @return 带分页的用户信息列表
      */
     @Override
-    public PageVo<UserInfoVo> list(Long currentPage, Long pageSize,
-                                String username, Integer gender, String email,
+    public PageVo<UserInfoVo> list(Long currentPage, Long pageSize, Integer gender, String queryString,
                                 Long schoolId, Long majorId, Integer status) {
         Page<User> page = new Page<>(currentPage, pageSize);
         Page<User> userPages = userMapper.selectPage(page,
                 new LambdaQueryWrapper<User>()
-                        .like(StringUtils.hasText(username), User::getUsername, username)
-                        .like(StringUtils.hasText(email), User::getEmail, email)
+                        .like(StringUtils.hasText(queryString), User::getUsername, queryString)
+                        .like(StringUtils.hasText(queryString), User::getEmail, queryString)
                         .eq(gender != null, User::getGender, gender)
                         .eq(schoolId != null, User::getSchoolId, schoolId)
                         .eq(majorId != null, User::getMajorId, majorId)
@@ -119,6 +119,25 @@ public class UserManageServiceImpl implements UserManageService {
         };
     }
 
+    /**
+     * 批量删除用户，虚拟删除
+     * @param targetUserIds 用户ID列表
+     * @return 成功删除的条目个数
+     */
+    @Override
+    public Integer batchDelete(List<Long> targetUserIds) {
+        if (targetUserIds.isEmpty()) {
+            return 0;
+        }
+
+        return userMapper.deleteByIds(targetUserIds);
+    }
+
+    /**
+     * 重置用户名
+     * @param targetUserId 目标用户ID
+     * @return 重置成功返回true，否则返回false
+     */
     private Boolean resetUsername(Long targetUserId) {
         boolean updateRet = userMapper.update(new User(),
                 new LambdaUpdateWrapper<User>()
@@ -132,6 +151,11 @@ public class UserManageServiceImpl implements UserManageService {
         return true;
     }
 
+    /**
+     * 重置头像
+     * @param targetUserId 目标用户ID
+     * @return 重置成功返回true，否则返回false
+     */
     private Boolean resetAvatar(Long targetUserId) {
         boolean updateRet = userMapper.update(new User(),
                 new LambdaUpdateWrapper<User>()
@@ -145,6 +169,11 @@ public class UserManageServiceImpl implements UserManageService {
         return true;
     }
 
+    /**
+     * 重置密码
+     * @param targetUserId 目标用户ID
+     * @return 重置成功返回true，否则返回false
+     */
     private Boolean resetPassword(Long targetUserId) {
         boolean updateRet = userMapper.update(new User(),
                 new LambdaUpdateWrapper<User>()
@@ -159,6 +188,11 @@ public class UserManageServiceImpl implements UserManageService {
         return true;
     }
 
+    /**
+     * 重置用户实名认证状态
+     * @param targetUserId 目标用户ID
+     * @return 重置成功返回true，否则返回false
+     */
     private Boolean resetRealNameAuth(Long targetUserId) {
         boolean updateRet = userMapper.update(new User(),
                 new LambdaUpdateWrapper<User>()

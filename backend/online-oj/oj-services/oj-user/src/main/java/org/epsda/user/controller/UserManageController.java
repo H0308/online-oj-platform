@@ -15,6 +15,8 @@ import org.epsda.user.service.UserManageService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * Description:
@@ -46,14 +48,13 @@ public class UserManageController {
     @GetMapping("/list")
     public ResultWrapper<PageVo<UserInfoVo>> list(@RequestParam("currentPage") Long currentPage,
             @RequestParam("pageSize") Long pageSize,
-            @RequestParam(value = "username", required = false) String username,
+            @RequestParam(value = "queryString", required = false) String queryString,
             @RequestParam(value = "gender", required = false) Integer gender,
-            @RequestParam(value = "email", required = false) String email,
             @RequestParam(value = "school", required = false) Long schoolId,
             @RequestParam(value = "major", required = false) Long majorId,
             @RequestParam(value = "status", required = false) Integer status) {
         return ResultWrapper.ok(UserResponseStatus.USER_OK.getCode(),
-                userManageService.list(currentPage, pageSize, username, gender, email,
+                userManageService.list(currentPage, pageSize, gender, queryString,
                         schoolId, majorId, status));
     }
 
@@ -90,9 +91,14 @@ public class UserManageController {
                 userManageService.resetInfo(changeDto, UserInfoResetType.REAL_NAME_AUTH));
     }
 
-    // 删除用户
-
-    // 批量删除用户
+    // 独立/批量删除用户
+    @Operation(summary = "独立/批量删除用户")
+    @DeleteMapping("/batchDelete")
+    public ResultWrapper<Integer> batchDelete(@RequestParam("currentUserId") Long currentUserId,
+                                            @RequestParam("targetUserIds") List<Long> targetUserIds) {
+        return ResultWrapper.ok(UserResponseStatus.USER_OK.getCode(),
+                userManageService.batchDelete(targetUserIds));
+    }
 
     // 封禁用户
 
